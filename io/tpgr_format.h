@@ -90,10 +90,10 @@ std::vector<EdgeInfo> read_edges(const std::string& input_file_name)
     unsigned int period;
     input_tpgr_file >> period;
 
-    if ( period != 864000 )
+    if ( period != 864000 && period != 86400 )
     {
         KATCH_CONTINUE_STATUS(" ABORT\n");
-        KATCH_ERROR("Period of time functions is " << period << " (expected 864000).\n");
+        KATCH_ERROR("Period of time functions is " << period << " (expected 864000 or 86400).\n");
         return result;
     }
 
@@ -138,6 +138,12 @@ std::vector<EdgeInfo> read_edges(const std::string& input_file_name)
                 result.clear();
                 return result;
             }
+
+	    if ( period == 86400 )
+	    {
+                x *= 10;
+		y *= 10;
+	    }
 
             if ( y < 0 )
             {
